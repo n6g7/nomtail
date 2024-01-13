@@ -94,7 +94,8 @@ func (c *client) refreshAllocations(ctx context.Context) error {
 	newAllocs := mapset.NewSet[string]()
 	for _, alloc := range allocs {
 		switch alloc.ClientStatus {
-		case "complete", "pending":
+		// Skip allocations we can't get logs from.
+		case "complete", "pending", "failed":
 			continue
 		case "running":
 			break
