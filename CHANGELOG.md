@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/n6g7/nomtail/compare/v0.0.2...v0.0.3) (2024-01-13)
+
+
+### Bug Fixes
+
+* release pipe. ([dc8e5db](https://github.com/n6g7/nomtail/commit/dc8e5dbd9a0babc1763c6fceae5efaaed6cee4ab))
+
 ## [0.0.2](https://github.com/n6g7/nomtail/compare/v0.0.1...v0.0.2) (2024-01-13)
 
 
