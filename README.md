@@ -12,13 +12,11 @@ Nomtail is meant to run alongside each Nomad client as **it only streams the log
 
 ## Usage
 
-Nomtail is packaged as a Docker image: `n6g7/nomtail`. It is configured exclusively with environment variables:
+Nomtail is packaged as a Docker image: `n6g7/nomtail`. Available in [Docker Hub](https://hub.docker.com/r/n6g7/nomtail) and [GHCR](https://github.com/n6g7/nomtail/pkgs/container/nomtail).
 
-| Variable | Description |
-| -------- | ----------- |
-| NOMAD_ADDR | URL of the local Nomad client. |
-| NOMAD_TOKEN | Nomad token to use to list allocations and stream logs. |
-| PROMTAIL_ADDR | Loki push API endpoint to send logs to. Can be either Promtail of Loki. |
+It is configured with environment variables:
+- all of the [Nomad CLI environment variables](https://developer.hashicorp.com/nomad/docs/commands#environment-variables) are used to configure the Nomad client: `NOMAD_ADDR`, `NOMAD_REGION`, `NOMAD_TOKEN`, etc.
+- `PROMTAIL_ADDR` is the Loki push API endpoint to send logs to. Can be either Promtail or Loki.
 
 ## Examples
 
