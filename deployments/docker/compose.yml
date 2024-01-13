@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - ./promtail.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+
+  nomtail:
+    image: n6g7/nomtail:latest
+    environment:
+      NOMAD_ADDR: http://nomad-client:4646
+      NOMAD_TOKEN: <token>
+      PROMTAIL_ADDR: http://promtail:1234/loki/api/v1/push
