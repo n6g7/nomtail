@@ -93,6 +93,21 @@ func (c *client) refreshAllocations(ctx context.Context) error {
 
 	newAllocs := mapset.NewSet[string]()
 	for _, alloc := range allocs {
+		switch alloc.ClientStatus {
+		case "complete", "pending":
+			continue
+		case "running":
+			break
+		default:
+			c.logger.WarnContext(ctx,
+				"unknown allocation status",
+				"allocation", alloc.ID,
+				"client_status", alloc.ClientStatus,
+				"client_description", alloc.ClientDescription,
+				"desired_status", alloc.DesiredStatus,
+				"desired_description", alloc.DesiredDescription,
+			)
+		}
 		newAllocs.Add(alloc.ID)
 
 		// New alloc
