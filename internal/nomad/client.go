@@ -95,9 +95,10 @@ func (c *client) refreshAllocations(ctx context.Context) error {
 	for _, alloc := range allocs {
 		switch alloc.ClientStatus {
 		// Skip allocations we can't get logs from.
-		case "complete", "pending", "failed":
+		case api.AllocClientStatusComplete, api.AllocClientStatusPending,
+			api.AllocClientStatusFailed, api.AllocClientStatusLost:
 			continue
-		case "running":
+		case api.AllocClientStatusRunning:
 			break
 		default:
 			c.logger.WarnContext(ctx,
