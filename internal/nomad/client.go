@@ -25,13 +25,15 @@ type client struct {
 	nodeId   string
 	nodeName string
 
-	// Map of allocation IDs to maps of task name to runner.
-	// runners[alloc.ID][task] = runner{}
-	runners map[string]map[string]*taskRunner
-	wg      sync.WaitGroup
+	// Map of allocation IDs to alloc runner.
+	// allocRunners[alloc.ID] = allocRunner{}
+	allocRunners map[string]*allocRunner
+	// Map of allocation IDs to maps of task name to task runner.
+	// taskRunners[alloc.ID][task] = taskRunner{}
+	taskRunners map[string]map[string]*taskRunner
 
-	entries chan loki.Entry
-
+	wg                      sync.WaitGroup
+	entries                 chan loki.Entry
 	failedAllocRefreshCount int
 }
 
@@ -44,7 +46,8 @@ func NewClient(logger *log.Logger) (*client, error) {
 	client := client{
 		c:                       nomad,
 		logger:                  logger.With("component", "nomad"),
-		runners:                 make(map[string]map[string]*taskRunner),
+		allocRunners:            make(map[string]*allocRunner),
+		taskRunners:             make(map[string]map[string]*taskRunner),
 		entries:                 make(chan loki.Entry, chanBufferSize),
 		failedAllocRefreshCount: 0,
 	}
@@ -113,31 +116,45 @@ func (c *client) refreshAllocations(ctx context.Context) error {
 		newAllocs.Add(alloc.ID)
 
 		// New alloc
-		if _, ok := c.runners[alloc.ID]; !ok {
-			c.runners[alloc.ID] = make(map[string]*taskRunner)
+		if _, ok := c.allocRunners[alloc.ID]; !ok {
+			c.allocRunners[alloc.ID] = startAllocRunner(ctx, c, alloc)
+		}
+		if _, ok := c.taskRunners[alloc.ID]; !ok {
+			c.taskRunners[alloc.ID] = make(map[string]*taskRunner)
 		}
 
 		for task := range alloc.TaskStates {
 			// New task
-			if _, ok := c.runners[alloc.ID][task]; !ok {
-				c.runners[alloc.ID][task] = startTaskRunner(ctx, c, alloc, task)
+			if _, ok := c.taskRunners[alloc.ID][task]; !ok {
+				c.taskRunners[alloc.ID][task] = startTaskRunner(ctx, c, alloc, task)
 			}
 		}
 
 		// Stopped task
-		for runningTask, runner := range c.runners[alloc.ID] {
+		for runningTask, runner := range c.taskRunners[alloc.ID] {
 			if _, ok := alloc.TaskStates[runningTask]; !ok {
 				runner.stop()
+				delete(c.taskRunners[alloc.ID], runningTask)
 			}
 		}
 	}
 
 	// Stopped alloc
-	for runningAlloc, runners := range c.runners {
+	for runningAlloc, runners := range c.taskRunners {
 		if !newAllocs.Contains(runningAlloc) {
-			for _, runner := range runners {
+			// Stop task runners for this alloc
+			for task, runner := range runners {
 				runner.stop()
+				delete(runners, task)
 			}
+			delete(c.taskRunners, runningAlloc)
+		}
+	}
+	for runningAlloc, runner := range c.allocRunners {
+		if !newAllocs.Contains(runningAlloc) {
+			// Stop alloc runner
+			runner.stop()
+			delete(c.allocRunners, runningAlloc)
 		}
 	}
 
