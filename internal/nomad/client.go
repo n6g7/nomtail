@@ -8,8 +8,8 @@ import (
 
 	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/hashicorp/nomad/api"
-	"github.com/n6g7/nomtail/internal/log"
 	"github.com/n6g7/nomtail/internal/loki"
+	"github.com/n6g7/nomtail/pkg/log"
 )
 
 const chanBufferSize int = 32

@@ -5,7 +5,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build \
   -mod=readonly \
   -trimpath \
-  -ldflags "-s -w -X github.com/n6g7/nomtail/internal/version.Version=$version" \
+  -ldflags "-s -w -X github.com/n6g7/nomtail/pkg/version.version=$version" \
   ./cmd/nomtail
 
 FROM alpine:3.19

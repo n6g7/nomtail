@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/n6g7/nomtail/internal/log"
-	"github.com/n6g7/nomtail/internal/version"
+	"github.com/n6g7/nomtail/pkg/log"
+	"github.com/n6g7/nomtail/pkg/version"
 )
 
 const (

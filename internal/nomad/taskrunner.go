@@ -7,8 +7,8 @@ import (
 
 	"github.com/grafana/loki/pkg/push"
 	"github.com/hashicorp/nomad/api"
-	"github.com/n6g7/nomtail/internal/log"
 	"github.com/n6g7/nomtail/internal/loki"
+	"github.com/n6g7/nomtail/pkg/log"
 	"github.com/prometheus/common/model"
 )
 

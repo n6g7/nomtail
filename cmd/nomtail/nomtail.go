@@ -8,10 +8,10 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/n6g7/nomtail/internal/log"
 	"github.com/n6g7/nomtail/internal/loki"
 	"github.com/n6g7/nomtail/internal/nomad"
-	"github.com/n6g7/nomtail/internal/version"
+	"github.com/n6g7/nomtail/pkg/log"
+	"github.com/n6g7/nomtail/pkg/version"
 )
 
 func main() {
