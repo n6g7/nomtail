@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/n6g7/nomtail/compare/v0.0.3...v0.1.0) (2024-01-17)
+
+
+### Features
+
+* collect Nomad events. ([435dedf](https://github.com/n6g7/nomtail/commit/435dedfcc2b1aeb8134c936fe888b78f6b509f28))
+
 ## [0.0.3](https://github.com/n6g7/nomtail/compare/v0.0.2...v0.0.3) (2024-01-13)
 
 
