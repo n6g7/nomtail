@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/n6g7/nomtail/compare/v0.1.0...v0.2.0) (2024-01-17)
+
+
+### Features
+
+* make log and version packages importable. ([d820693](https://github.com/n6g7/nomtail/commit/d820693e1e1ca15a49edc0d68c3011a9222ca4f9))
+
 ## [0.1.0](https://github.com/n6g7/nomtail/compare/v0.0.3...v0.1.0) (2024-01-17)
 
 
