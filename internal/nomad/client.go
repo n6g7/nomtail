@@ -102,7 +102,6 @@ func (c *client) refreshAllocations(ctx context.Context) error {
 			api.AllocClientStatusFailed, api.AllocClientStatusLost:
 			continue
 		case api.AllocClientStatusRunning:
-			break
 		default:
 			c.logger.WarnContext(ctx,
 				"unknown allocation status",
