@@ -96,7 +96,7 @@ func (l *client) Chan() chan<- Entry {
 }
 
 func (l *client) pushBatch(ctx context.Context, b *batch) error {
-	l.logger.InfoContext(ctx, "sending batch to Loki", "stream_count", len(b.streams))
+	l.logger.DebugContext(ctx, "sending batch to Loki", "stream_count", len(b.streams))
 
 	buf, err := b.makePushRequest()
 	if err != nil {
