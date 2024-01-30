@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/n6g7/nomtail/compare/v0.2.0...v0.2.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* empty Nomad allocation TaskStates map ([8e1bc5a](https://github.com/n6g7/nomtail/commit/8e1bc5a1a5c924424c2d232d09fbfd8023f1f689))
+
 ## [0.2.0](https://github.com/n6g7/nomtail/compare/v0.1.0...v0.2.0) (2024-01-17)
 
 
