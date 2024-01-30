@@ -124,7 +124,7 @@ func (l *client) pushBatch(ctx context.Context, b *batch) error {
 		if scanner.Scan() {
 			line = scanner.Text()
 		}
-		return fmt.Errorf("Promtail returned status code %s (%d): %s", response.Status, response.StatusCode, line)
+		return fmt.Errorf("promtail returned status code %s (%d): %s", response.Status, response.StatusCode, line)
 	}
 
 	l.logger.DebugContext(ctx, "cache pushed to Loki successfully", "status_code", response.StatusCode)
