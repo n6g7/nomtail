@@ -92,6 +92,13 @@ func (r *allocRunner) run(ctx context.Context) {
 			// Here comes a lot of interface casting
 			for _, ev := range events.Events {
 				allocation := ev.Payload["Allocation"].(map[string]interface{})
+
+				// New allocations might not have tasks yet.
+				if allocation["TaskStates"] == nil {
+					r.logger.DebugContext(ctx, "allocation's `TaskStates` is nil", "allocation", allocation)
+					continue
+				}
+
 				taskStates := allocation["TaskStates"].(map[string]interface{})
 				for task, v := range taskStates {
 					states := v.(map[string]interface{})
